@@ -10,7 +10,7 @@ The {{ site.data.products.cockroachdb-operator }} provides abstractions that sim
 - A default pod specification is used for the CockroachDB Kubernetes pod.
 - The `values.yaml` configuration maps to a subset of `cockroach start` flags when CockroachDB is initialized.
 
-This page describes configuration options that allow advanced users to manually override the pod template and `cockroach start` flags as needed for deployment.
+This page describes configuration options that allow advanced users to manually override pod template metadata and `cockroach start` flags as needed for deployment.
 
 {{site.data.alerts.callout_info}}
 The {{ site.data.products.cockroachdb-operator }} is in [Preview]({% link {{ page.version.version }}/cockroachdb-feature-availability.md %}).
@@ -44,7 +44,7 @@ cockroachdb:
         imagePullSecrets: []
 ~~~
 
-At least one value for `containers` must be specified if any part of `podTemplate` is being modified. For example, the following `podTemplate` configuration overrides pod anti-affinity behavior and specifies a default `cockroachdb/cockroach:v25.4.0` container image:
+At least one value for `containers` must be specified if any part of `podTemplate` is being modified. For example, the following `podTemplate` configuration specifies a default `cockroachdb/cockroach:v25.4.0` container image:
 
 ~~~ yaml
 cockroachdb:
