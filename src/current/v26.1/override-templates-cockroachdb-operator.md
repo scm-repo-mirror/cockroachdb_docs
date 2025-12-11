@@ -24,6 +24,8 @@ This page describes advanced configurations that override the supported default 
 
 The `cockroachdb.crdbCluster.podTemplate` field allows you to override the default pod metadata and specification configured by the {{ site.data.products.cockroachdb-operator }}. The values in this field are merged with the default pod specification, where settings in `podTemplate` override any values in the default.
 
+The `podTemplate` field includes a `containers` field that specifies the container name and image that the template is applied to. By default, this resolves to the `cockroachdb` container name and can be excluded from modifications to the CockroachDB pod template YAML. For advanced configurations, you may need to provide specific images for the `containers` and `initContainers`. For example, the following `podTemplate` configuration specifies a default `cockroachdb/cockroach:v25.4.0` container image:
+
 ~~~ yaml
 cockroachdb:
   crdbCluster:
@@ -35,37 +37,13 @@ cockroachdb:
         # initContainers captures the list of init containers for CockroachDB pods.
         initContainers:
           - name : cockroachdb-init
-            image: us-docker.pkg.dev/cockroach-cloud-images/data-plane/init-container@sha256:c3e4ba851802a429c7f76c639a64b9152d206cebb31162c1760f05e98f7c4254
+            image: us-docker.pkg.dev/cockroach-cloud-images/data-plane/init-container@sha256:example1234567890abcdefghijklmnopqrstuvwxyz
         # containers captures the list of containers for CockroachDB pods.
         containers:
           - name: cockroachdb
             image: cockroachdb/cockroach:v25.4.0
         # imagePullSecrets captures the secrets for fetching images from private registries.
         imagePullSecrets: []
-~~~
-
-At least one value for `containers` must be specified if any part of `podTemplate` is being modified. For example, the following `podTemplate` configuration specifies a default `cockroachdb/cockroach:v25.4.0` container image:
-
-~~~ yaml
-cockroachdb:
-  crdbCluster:
-    podTemplate:
-       spec:
-         affinity:
-           podAntiAffinity: 
-               preferredDuringSchedulingIgnoredDuringExecution:
-               - weight: 100
-                 podAffinityTerm:
-                   labelSelector:
-                     matchExpressions:
-                       - key: app.kubernetes.io/component
-                         operator: In
-                         values:
-                           - cockroachdb
-                   topologyKey: kubernetes.io/hostname
-         containers:
-           - name: cockroachdb
-             image: cockroachdb/cockroach:v25.4.0
 ~~~
 
 ## Override the default `cockroach start` flags

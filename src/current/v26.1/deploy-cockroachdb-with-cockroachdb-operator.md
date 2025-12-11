@@ -252,22 +252,20 @@ For bare metal deployments, the specific Kubernetes infrastructure deployment st
     If you intend to deploy CockroachDB nodes across multiple different regions, follow the additional steps described in [Deploy across multiple regions](#deploy-across-multiple-regions).
     {{site.data.alerts.callout_end}}
 
-1. Modify `cockroachdb.crdbCluster.podTemplate.spec.containers.resources` in the values file with the CPU and memory limits and requests for each node to use. For example, to define default values of 4vCPU and 16GiB of memory:
+1. Modify `cockroachdb.crdbCluster.podTemplate.spec.resources` in the values file with the CPU and memory limits and requests for each node to use. For example, to define default values of 4vCPU and 16GiB of memory:
 
     ~~~ yaml
     cockroachdb:
       crdbCluster:
         podTemplate:
           spec:
-            containers:
-            - name: cockroachdb
-              resources:
-                limits:
-                  cpu: 4000m
-                  memory: 16Gi
-                requests:
-                  cpu: 4000m
-                  memory: 16gi
+            resources:
+              limits:
+                cpu: 4000m
+                memory: 16Gi
+              requests:
+                cpu: 4000m
+                memory: 16gi
     ~~~
 
     For more information on configuring node resource allocation, refer to [Resource management]({% link {{ page.version.version }}/configure-cockroachdb-operator.md %})

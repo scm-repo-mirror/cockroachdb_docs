@@ -179,12 +179,10 @@ cockroachdb:
   crdbCluster:
     podTemplate:
       spec:
-        containers:
-        - name: cockroachdb
-          resources:
-            requests:
-              cpu: 3500m
-              memory: 12300Mi
+        resources:
+          requests:
+            cpu: 3500m
+            memory: 12300Mi
 ~~~
 
 When you initialize the cluster, check that all the CockroachDB pods are scheduled successfully. If you see any get stuck in the pending state, run `kubectl describe pod {podname}` and check the `Events` for information about why they're still pending. You may need to manually preempt pods on one or more nodes by running `kubectl delete pod` on them to make room for the CockroachDB pods. As long as the pods you delete were created by a higher-level Kubernetes object such as a `Deployment`, they'll be safely recreated on another node.
@@ -200,14 +198,12 @@ cockroachdb:
   crdbCluster:
     podTemplate:
       spec:
-        containers:
-        - name: cockroachdb
-          resources:
-            requests:
-              cpu: 3500m
-              memory: 12300Mi
-            limits:
-              memory: 12300Mi
+        resources:
+          requests:
+            cpu: 3500m
+            memory: 12300Mi
+          limits:
+            memory: 12300Mi
 ~~~
 
 Pods will be limited to their reserved resources and are unlikely to be preempted, except in rare cases. This will not improve performance on an underutilized Kubernetes cluster, but provides more predictable performance as other workloads run.
