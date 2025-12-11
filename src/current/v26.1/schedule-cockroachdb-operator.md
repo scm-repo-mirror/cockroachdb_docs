@@ -365,17 +365,17 @@ For more context on how these rules work, see the [Kubernetes documentation](htt
 
 To assist in working with your cluster, you can add labels and annotations to your resources.
 
-Specify labels in `cockroachdb.crdbCluster.podTemplate.spec.podLabels` and annotations in `cockroachdb.crdbCluster.podTemplate.spec.podAnnotations` in the values file used to [deploy the cluster]({% link {{ page.version.version }}/deploy-cockroachdb-with-cockroachdb-operator.md %}#initialize-the-cluster):
+Specify labels in `cockroachdb.crdbCluster.podTemplate.metadata.labels` and annotations in `cockroachdb.crdbCluster.podTemplate.metadata.annotations` in the values file used to [deploy the cluster]({% link {{ page.version.version }}/deploy-cockroachdb-with-cockroachdb-operator.md %}#initialize-the-cluster):
 
 ~~~ yaml
 cockroachdb:
   crdbCluster:
     podTemplate:
-      spec:
-        podLabels:
-          app.kubernetes.io/version: v25.1.4
-        podAnnotations
-          operator: https://raw.githubusercontent.com/cockroachdb/helm-charts/refs/heads/master/cockroachdb-parent/charts/cockroachdb/values.yaml
+      metadata:
+        labels:
+          app.kubernetes.io/name: "cockroachdb"
+        annotations
+          kubernetes.io/description: "This is a CockroachDB pod."
 ~~~
 
 To verify that the labels and annotations were applied to a pod, for example, run `kubectl describe pod {pod-name}`.

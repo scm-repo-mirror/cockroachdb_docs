@@ -277,26 +277,26 @@ cockroachdb:
     podTemplate:
       spec:
         affinity:
-        podAntiAffinity:
-            preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              podAffinityTerm:
-                labelSelector:
-                  matchExpressions:
-                  - key: app
-                    operator: In
-                    values:
-                    - loadgen
-                topologyKey: kubernetes.io/hostname
-            - weight: 99
-              podAffinityTerm:
-                labelSelector:
-                  matchExpressions:
-                  - key: app
-                    operator: In
-                    values:
-                    - cockroachdb
-                topologyKey: kubernetes.io/hostname
+          podAntiAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                podAffinityTerm:
+                  labelSelector:
+                    matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                      - loadgen
+                  topologyKey: kubernetes.io/hostname
+              - weight: 99
+                podAffinityTerm:
+                  labelSelector:
+                    matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                      - cockroachdb
+                  topologyKey: kubernetes.io/hostname
 ~~~
 
 The preceding configuration will first prefer to put the `loadgen` pods on different nodes from each other, which is important for the fault tolerance of the `loadgen` pods themselves. As a secondary priority, it will attempt to put the pods on nodes that do not already have a running `CockroachDB` pod. This will ensure the best possible balance of fault tolerance and performance for the load generator and CockroachDB cluster.
